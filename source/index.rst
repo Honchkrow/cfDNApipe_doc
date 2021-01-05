@@ -7,7 +7,8 @@ Welcome to cfDNApipe's documentation!
 =====================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
+   :hidden:
    :caption: Contents:
 
    adapterremoval
@@ -62,6 +63,43 @@ Welcome to cfDNApipe's documentation!
    cfDNAWGBS2
    cfDNAWGS
    cfDNAWGS2
+
+**cfDNApipe(cell free DNA Pipeline)** is an integrated pipeline for
+analyzing `cell-free DNA`_ WGBS/WGS data. It contains many cfDNA quality
+control and feature extration algorithms. Also we collected some useful
+cell free DNA references and provide them `here`_.
+
+The whole pipeline was established based on processing graph principle.
+Users can use the inside integrated pipeline for WGBS/WGS data as well
+as build their own analysis pipeline from any intermediate data like bam
+files. The main functions are as the following picture.
+
+.. figure:: ./pics/pipeline.png
+
+   cfDNApipe Functions 
+
+
+WGS Related functions 
+~~~~~~~~~~~~~~~~~~~~~
+
+.. figure:: ./pics/WGS_pipeline.png
+
+   WGS Dataflow Overview
+
+
+WGBS Related functions 
+~~~~~~~~~~~~~~~~~~~~~
+
+.. figure:: ./pics/WGBS_pipeline.png
+
+   WGBS Dataflow Overview
+
+
+
+
+.. _cell-free DNA: https://en.wikipedia.org/wiki/Circulating_free_DNA
+.. _here: https://honchkrow.github.io/cfDNAReferences/
+
 
 Indices and tables
 ==================
