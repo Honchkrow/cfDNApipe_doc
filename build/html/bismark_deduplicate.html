@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>bismark_deduplicate &#8212; cfDNApipe 0.1.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="bismark_methylation_extractor" href="bismark_methylation_extractor.html" />
+    <link rel="prev" title="bismark" href="bismark.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="bismark-deduplicate">
+<h1>bismark_deduplicate<a class="headerlink" href="#bismark-deduplicate" title="Permalink to this headline">¶</a></h1>
+<p>This function is used for removing duplicates from bismark output.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is calling bismark.</p>
+<p><a class="reference external" href="https://rawgit.com/FelixKrueger/Bismark/master/Docs/Bismark_User_Guide.html">bismark official docs</a></p>
+</div>
+<div class="section" id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bismark_deduplicate</span><span class="p">(</span><span class="n">bamInput</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outputdir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">paired</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">other_params</span><span class="o">=</span><span class="p">{},</span> <span class="n">stepNum</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">upstream</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>bamInput: list, input bam files.</p></li>
+<li><p>outputdir: str, output result folder, None means the same folder as input files.</p></li>
+<li><p>threads: int, how many thread to use.</p></li>
+<li><p>paired: True for paired data, False for single end data.</p></li>
+<li><dl class="simple">
+<dt>other_params: dict, other parameters passing to Bismark.</dt><dd><p>“-parameter”: True means “-parameter” in command line.
+“-parameter”: 1 means “-parameter 1” in command line.</p>
+</dd>
+</dl>
+</li>
+<li><p>stepNum: int or str, step flag for folder name.</p></li>
+<li><p>upstream: upstream output results, used for pipeline. This parameter can be True, which means a new pipeline start.</p></li>
+<li><p>verbose: bool, True means print all stdout, but will be slow; False means black stdout verbose, much faster.</p></li>
+</ul>
+<p>Example usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># bam file must from bismark output and not be sorted!</span>
+<span class="n">bams</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;test1.bam&quot;</span><span class="p">,</span> <span class="s2">&quot;test2.bam&quot;</span><span class="p">]</span>
+
+<span class="n">bismark_deduplicate</span><span class="p">(</span><span class="n">bamInput</span><span class="o">=</span><span class="n">bams</span><span class="p">,</span> <span class="n">paired</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">cfDNApipe</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="adapterremoval.html">adapterremoval</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addRG.html">addRG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bam2bed.html">bam2bed</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bamCounter.html">bamCounter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bamsort.html">bamsort</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BaseRecalibrator.html">BaseRecalibrator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bcftoolsVCF.html">bcftoolsVCF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bismark.html">bismark</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">bismark_deduplicate</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#parameters">Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bismark_methylation_extractor.html">bismark_methylation_extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bowtie2.html">bowtie2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BQSR.html">BQSR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calculate_methyl.html">calculate_methyl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cnvbatch.html">cnvbatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cnvHeatmap.html">cnvHeatmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cnvPlot.html">cnvPlot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cnvTable.html">cnvTable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compress_methyl.html">compress_methyl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="computeCNV.html">computeCNV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="computeDMR.html">computeDMR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="computeOCF.html">computeOCF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contamination.html">contamination</a></li>
+<li class="toctree-l1"><a class="reference internal" href="createPON.html">createPON</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dbimport.html">dbimport</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fastqc.html">fastqc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filterMutectCalls.html">filterMutectCalls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fpCounter.html">fpCounter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fraglenplot.html">fraglenplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fraglenplot_comp.html">fraglenplot_comp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fragprofplot.html">fragprofplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gatherVCF.html">gatherVCF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GCCorrect.html">GCCorrect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getPileup.html">getPileup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="identifyAdapter.html">identifyAdapter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inputprocess.html">inputprocess</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mutect2n.html">mutect2n</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mutect2t.html">mutect2t</a></li>
+<li class="toctree-l1"><a class="reference internal" href="OCFplot.html">OCFplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qualimap.html">qualimap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rmduplicate.html">rmduplicate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="runCounter.html">runCounter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="runDeconCCN.html">runDeconCCN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="virusdetect.html">virusdetect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Configure.html">Configure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Configure2.html">Configure2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeConfigure.html">pipeConfigure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeConfigure2.html">pipeConfigure2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="switchConfigure.html">switchConfigure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cfDNAWGBS.html">cfDNAWGBS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cfDNAWGBS2.html">cfDNAWGBS2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cfDNAWGS.html">cfDNAWGS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cfDNAWGS2.html">cfDNAWGS2</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="bismark.html" title="previous chapter">bismark</a></li>
+      <li>Next: <a href="bismark_methylation_extractor.html" title="next chapter">bismark_methylation_extractor</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Wei Zhang.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/bismark_deduplicate.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

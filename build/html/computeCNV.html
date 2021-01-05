@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>computeCNV &#8212; cfDNApipe 0.1.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="computeDMR" href="computeDMR.html" />
+    <link rel="prev" title="compress_methyl" href="compress_methyl.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="computecnv">
+<h1>computeCNV<a class="headerlink" href="#computecnv" title="Permalink to this headline">¶</a></h1>
+<p>This function is used for computing CNV z-scores.</p>
+<div class="section" id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">computeCNV</span><span class="p">(</span><span class="n">casetxtInput</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ctrltxtInput</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+           <span class="n">outputdir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cytoBandInput</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+           <span class="n">threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stepNum</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">caseupstream</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+           <span class="n">ctrlupstream</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>casetxtInput: list, paths of files of GC corrected read counts for case samples.</p></li>
+<li><p>ctrltxtInput: list, paths of files of GC corrected read counts for control samples.</p></li>
+<li><p>outputdir: str, output result folder, None means the same folder as input files.</p></li>
+<li><p>cytoBandInput: str, path of the cytoBand file.</p></li>
+<li><p>threads: int, how many thread to use.</p></li>
+<li><p>stepNum: Step number for folder name.</p></li>
+<li><p>caseupstream: Not used parameter, do not set this parameter.</p></li>
+<li><p>ctrlupstream: Not used parameter, do not set this parameter.</p></li>
+<li><p>verbose: bool, True means print all stdout, but will be slow; False means black stdout verbose, much faster.</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>We recommend using this function in arm-level CNV detection.</p>
+</div>
+<p>Example usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># an example for compute arm-level CNV</span>
+<span class="kn">from</span> <span class="nn">cfDNApipe</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+
+<span class="n">pipeConfigure2</span><span class="p">(</span>
+    <span class="n">threads</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">genome</span><span class="o">=</span><span class="s2">&quot;hg19&quot;</span><span class="p">,</span>
+    <span class="n">refdir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;reference_genome/hg19&quot;</span><span class="p">,</span>
+    <span class="n">outdir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;output/pcs_armCNV&quot;</span><span class="p">,</span>
+    <span class="n">data</span><span class="o">=</span><span class="s2">&quot;WGS&quot;</span><span class="p">,</span>
+    <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;paired&quot;</span><span class="p">,</span>
+    <span class="n">JavaMem</span><span class="o">=</span><span class="s2">&quot;8G&quot;</span><span class="p">,</span>
+    <span class="n">case</span><span class="o">=</span><span class="s2">&quot;cancer&quot;</span><span class="p">,</span>
+    <span class="n">ctrl</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">,</span>
+    <span class="n">build</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">case_bam</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;path_to_data/HCC/*.bam&quot;</span><span class="p">)</span>
+<span class="n">ctrl_bam</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;path_to_data/CTR/*.bam&quot;</span><span class="p">)</span>
+
+<span class="c1"># case</span>
+<span class="n">switchConfigure</span><span class="p">(</span><span class="s2">&quot;cancer&quot;</span><span class="p">)</span>
+<span class="n">case_bamCounter</span> <span class="o">=</span> <span class="n">bamCounter</span><span class="p">(</span>
+    <span class="n">bamInput</span><span class="o">=</span><span class="n">case_bam</span><span class="p">,</span> <span class="n">upstream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">stepNum</span><span class="o">=</span><span class="s2">&quot;case01&quot;</span>
+<span class="p">)</span>
+<span class="n">case_gcCounter</span> <span class="o">=</span> <span class="n">runCounter</span><span class="p">(</span>
+    <span class="n">filetype</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">upstream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">stepNum</span><span class="o">=</span><span class="s2">&quot;case02&quot;</span>
+<span class="p">)</span>
+<span class="n">case_GCCorrect</span> <span class="o">=</span> <span class="n">GCCorrect</span><span class="p">(</span>
+    <span class="n">readupstream</span><span class="o">=</span><span class="n">case_bamCounter</span><span class="p">,</span>
+    <span class="n">gcupstream</span><span class="o">=</span><span class="n">case_gcCounter</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+    <span class="n">stepNum</span><span class="o">=</span><span class="s2">&quot;case03&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># ctrl</span>
+<span class="n">switchConfigure</span><span class="p">(</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+<span class="n">ctrl_bamCounter</span> <span class="o">=</span> <span class="n">bamCounter</span><span class="p">(</span>
+    <span class="n">bamInput</span><span class="o">=</span><span class="n">ctrl_bam</span><span class="p">,</span> <span class="n">upstream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">stepNum</span><span class="o">=</span><span class="s2">&quot;ctrl01&quot;</span>
+<span class="p">)</span>
+<span class="n">ctrl_gcCounter</span> <span class="o">=</span> <span class="n">runCounter</span><span class="p">(</span>
+    <span class="n">filetype</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">upstream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">stepNum</span><span class="o">=</span><span class="s2">&quot;ctrl02&quot;</span>
+<span class="p">)</span>
+<span class="n">ctrl_GCCorrect</span> <span class="o">=</span> <span class="n">GCCorrect</span><span class="p">(</span>
+    <span class="n">readupstream</span><span class="o">=</span><span class="n">ctrl_bamCounter</span><span class="p">,</span>
+    <span class="n">gcupstream</span><span class="o">=</span><span class="n">ctrl_gcCounter</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+    <span class="n">stepNum</span><span class="o">=</span><span class="s2">&quot;ctrl03&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">switchConfigure</span><span class="p">(</span><span class="s2">&quot;cancer&quot;</span><span class="p">)</span>
+<span class="n">res_computeCNV</span> <span class="o">=</span> <span class="n">computeCNV</span><span class="p">(</span>
+    <span class="n">caseupstream</span><span class="o">=</span><span class="n">case_GCCorrect</span><span class="p">,</span>
+    <span class="n">ctrlupstream</span><span class="o">=</span><span class="n">ctrl_GCCorrect</span><span class="p">,</span>
+    <span class="n">stepNum</span><span class="o">=</span><span class="s2">&quot;ARMCNV&quot;</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">cfDNApipe</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="adapterremoval.html">adapterremoval</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addRG.html">addRG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bam2bed.html">bam2bed</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bamCounter.html">bamCounter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bamsort.html">bamsort</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BaseRecalibrator.html">BaseRecalibrator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bcftoolsVCF.html">bcftoolsVCF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bismark.html">bismark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bismark_deduplicate.html">bismark_deduplicate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bismark_methylation_extractor.html">bismark_methylation_extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bowtie2.html">bowtie2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BQSR.html">BQSR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calculate_methyl.html">calculate_methyl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cnvbatch.html">cnvbatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cnvHeatmap.html">cnvHeatmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cnvPlot.html">cnvPlot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cnvTable.html">cnvTable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compress_methyl.html">compress_methyl</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">computeCNV</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#parameters">Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="computeDMR.html">computeDMR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="computeOCF.html">computeOCF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contamination.html">contamination</a></li>
+<li class="toctree-l1"><a class="reference internal" href="createPON.html">createPON</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dbimport.html">dbimport</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fastqc.html">fastqc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filterMutectCalls.html">filterMutectCalls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fpCounter.html">fpCounter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fraglenplot.html">fraglenplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fraglenplot_comp.html">fraglenplot_comp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fragprofplot.html">fragprofplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gatherVCF.html">gatherVCF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GCCorrect.html">GCCorrect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getPileup.html">getPileup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="identifyAdapter.html">identifyAdapter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inputprocess.html">inputprocess</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mutect2n.html">mutect2n</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mutect2t.html">mutect2t</a></li>
+<li class="toctree-l1"><a class="reference internal" href="OCFplot.html">OCFplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qualimap.html">qualimap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rmduplicate.html">rmduplicate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="runCounter.html">runCounter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="runDeconCCN.html">runDeconCCN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="virusdetect.html">virusdetect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Configure.html">Configure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Configure2.html">Configure2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeConfigure.html">pipeConfigure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeConfigure2.html">pipeConfigure2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="switchConfigure.html">switchConfigure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cfDNAWGBS.html">cfDNAWGBS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cfDNAWGBS2.html">cfDNAWGBS2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cfDNAWGS.html">cfDNAWGS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cfDNAWGS2.html">cfDNAWGS2</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="compress_methyl.html" title="previous chapter">compress_methyl</a></li>
+      <li>Next: <a href="computeDMR.html" title="next chapter">computeDMR</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Wei Zhang.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/computeCNV.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
