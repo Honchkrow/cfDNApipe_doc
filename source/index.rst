@@ -88,7 +88,7 @@ WGS Related functions
 
 
 WGBS Related functions 
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. figure:: ./pics/WGBS_pipeline.png
 
