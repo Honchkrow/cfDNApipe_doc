@@ -15,7 +15,7 @@ Parameters
 
 
                   
--  threads: int, how many thread to use, default: 1.
+-  threads: int, how many thread to use, default: 1. Do not use the entire computational resources.
 -  genome: str, which genome you want to use, must be 'hg19' or 'hg38'.
 -  refdir: reference folder for aligner (bowtie2 or bismark) and other reference files.
 -  outdir: Overall result folder, it usually contains tmpdir, finaldir and repdir.
