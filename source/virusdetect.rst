@@ -9,6 +9,8 @@ This function is used for detect virus in sequencing data.
 
    `centrifuge official docs <https://ccb.jhu.edu/software/centrifuge/>`__
 
+   Kim, Daehwan, et al. "Centrifuge: rapid and sensitive classification of metagenomic sequences." Genome research 26.12 (2016): 1721-1729.
+
 Parameters
 ~~~~~~~~~~
 

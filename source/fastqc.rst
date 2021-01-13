@@ -9,6 +9,8 @@ This function is used for fastq file quality control.
 
    `FASTQC official docs <https://www.bioinformatics.babraham.ac.uk/projects/fastqc/>`__
 
+   Andrews, Simon. "FastQC: a quality control tool for high throughput sequence data." (2010).
+
 Parameters
 ~~~~~~~~~~
 

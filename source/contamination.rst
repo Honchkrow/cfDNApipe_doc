@@ -10,6 +10,9 @@ Calculates the fraction of reads coming from cross-sample contamination, given r
 
    `gatk official docs <https://gatk.broadinstitute.org/hc/en-us/categories/360002310591-Technical-Documentation>`__
 
+   McKenna, Aaron, et al. "The Genome Analysis Toolkit: a MapReduce framework for analyzing next-generation DNA sequencing data." Genome research 20.9 (2010): 1297-1303.
+
+
 Parameters
 ~~~~~~~~~~
 

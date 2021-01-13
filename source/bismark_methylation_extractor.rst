@@ -8,6 +8,8 @@ This function is used for extracting methylation information from bismark output
    This function is calling bismark.
 
    `bismark official docs <https://rawgit.com/FelixKrueger/Bismark/master/Docs/Bismark_User_Guide.html>`__
+   
+   Krueger, Felix, and Simon R. Andrews. "Bismark: a flexible aligner and methylation caller for Bisulfite-Seq applications." bioinformatics 27.11 (2011): 1571-1572.
 
 Parameters
 ~~~~~~~~~~

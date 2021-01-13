@@ -9,6 +9,8 @@ This function is used for detecting adapters in paired end fastq files.
 
    `adapterremoval official docs <https://adapterremoval.readthedocs.io/en/latest/>`__
 
+   Schubert, Mikkel, Stinus Lindgreen, and Ludovic Orlando. "AdapterRemoval v2: rapid adapter trimming, identification, and read merging." BMC research notes 9.1 (2016): 1-7.
+
 Parameters
 ~~~~~~~~~~
 

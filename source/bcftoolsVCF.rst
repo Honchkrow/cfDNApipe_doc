@@ -11,6 +11,8 @@ Default setting is for selecting the somatic mutation.
 
    `bcftools official docs <http://samtools.github.io/bcftools/bcftools.html>`__
 
+   Li, Heng, et al. "The sequence alignment/map format and SAMtools." Bioinformatics 25.16 (2009): 2078-2079.
+
 Parameters
 ~~~~~~~~~~
 
