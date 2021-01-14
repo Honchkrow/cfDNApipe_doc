@@ -10,7 +10,7 @@ Parameters
 .. code:: python
 
     computeDMR(casetxtInput=None, ctrltxtInput=None, 
-               outputdir=None, threads=1, adjmethod=None, 
+               outputdir=None, threads=1, diff=0.2, adjmethod=None, 
                caseupstream=None, ctrlupstream=None, stepNum=None)
 
 
@@ -18,6 +18,7 @@ Parameters
 -  ctrlbedInput: list, input methylation level files of control samples.
 -  outputdir: str, output result folder, None means the same folder as input files.
 -  threads: int, how many thread to use.
+-  diff: minimal mean difference between two group, default:0.2.
 -  adjmethod: str, method of p_value correction, must be "bonferroni", "fdr_bh"(default), "fdr_by" or "holm"
 -  caseupstream: upstream output results, used for pipeline.
 -  ctrlupstream: upstream output results, used for pipeline.
