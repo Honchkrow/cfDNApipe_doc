@@ -1,4 +1,4 @@
-runDeconCCN
+deconvolution
 ===========
 
 This function is used for methylation signal deconvolution.
@@ -9,9 +9,14 @@ Parameters
 
 .. code:: python
 
-    runDeconCCN(mixInput=None, refInput=None, 
-                outputdir=None, threads=1, 
-                stepNum=None, upstream=None,) 
+    deconvolution(mixInput=None, refInput=None, 
+                  outputdir=None, threads=1, stepNum=None, 
+                  upstream=None, marker_path='', scale=0.1, 
+                  delcol_factor=10, iter_num=10, 
+                  confidence=0.75, w_thresh=10, 
+                  unknown=False, is_markers=False, 
+                  is_methylation=True)
+        
 
 
 -  mixInput: Input samples need to be deconvoluted.
@@ -20,6 +25,14 @@ Parameters
 -  threads: int, how many thread to use. In this function, this number is set to 1.
 -  upstream: upstream output results, used for pipeline, must from calculate_methyl.
 -  stepNum: int or str, step flag for folder name.
+-  marker_path: str, path to markers, if users select to specify certain markers
+-  scale: float, control the convergence of SVR
+-  delcol_factor: int, control the extent of removing collinearity
+-  iter_num: int, iterative numbers of outliers detection
+-  confidence: float, ratio of remained markers in each outlier detection loop
+-  w_thresh: int, threshold to cut the weights designer
+-  unknown: bool, if there is unknown content
+-  is_markers: bool, if users choose to specify their own markers
 
 
 .. warning::
@@ -63,4 +76,4 @@ Example usage:
     res_calMethy = calculate_methyl(
         upstream=res_compressMethy, bedInput=methyRegion, verbose=verbose
     )
-    res_runDeconCCN = runDeconCCN(upstream=res_calMethy)
+    res_deconvolution = deconvolution(upstream=res_calMethy)
