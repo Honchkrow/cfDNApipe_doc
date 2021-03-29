@@ -24,6 +24,7 @@ Parameters
 -  outputdir: str, output result folder, None means the same folder as input files.
 -  maxLimit: int, maximum length to be considered.
 -  labelInput: list, [name_of_case, name_of_control](e.g. ["HCC", "CTR"])
+-  ratio1, ratio2: proportion statistics break point, default: 150, 400
 -  threads: int, how many thread to use.
 -  stepNum: int or str, step flag for folder name.
 -  caseupstream: upstream output results, used for pipeline.
