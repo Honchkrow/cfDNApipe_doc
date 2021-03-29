@@ -7,62 +7,21 @@ Welcome to cfDNApipe's documentation!
 =====================================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :hidden:
    :caption: Contents:
 
-   adapterremoval
-   addRG
-   bam2bed
-   bamCounter
-   bamsort
-   BaseRecalibrator
-   bcftoolsVCF
-   bismark
-   bismark_deduplicate
-   bismark_methylation_extractor
-   bowtie2
-   BQSR
-   calculate_methyl
-   cnvbatch
-   cnvHeatmap
-   cnvPlot
-   cnvTable
-   compress_methyl
-   computeCNV
-   computeDMR
-   computeOCF
-   contamination
-   createPON
-   dbimport
-   fastqc
-   filterMutectCalls
-   fpCounter
-   fraglenplot
-   fraglenplot_comp
-   fragprofplot
-   gatherVCF
-   GCCorrect
-   getPileup
-   identifyAdapter
-   inputprocess
-   mutect2n
-   mutect2t
-   OCFplot
-   qualimap
-   rmduplicate
-   runCounter
-   runDeconCCN
-   virusdetect
-   Configure
-   Configure2
-   pipeConfigure
-   pipeConfigure2
-   switchConfigure
-   cfDNAWGBS
-   cfDNAWGBS2
-   cfDNAWGS
-   cfDNAWGS2
+   Up-Down-Stream-Flowchart
+   Basic-Data-Processing
+   Quality-Control
+   Methylation-Analysis
+   Large-Scale-CNV
+   Bin-Scale-CNV
+   Fragmentomics
+   Virus-Detection
+   SNV-Detection
+
+
 
 **cfDNApipe(cell free DNA Pipeline)** is an integrated pipeline for
 analyzing `cell-free DNA`_ WGBS/WGS data. It contains many cfDNA quality
@@ -79,22 +38,12 @@ files. The main functions are as the following picture.
    cfDNApipe Functions 
 
 
-WGS Related functions 
-~~~~~~~~~~~~~~~~~~~~~
+cfDNApipe Analysis Workflow
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. figure:: ./pics/WGS_pipeline.png
+.. figure:: ./pics/cfDNApipe_flowchart.png
 
-   WGS Dataflow Overview
-
-
-WGBS Related functions 
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. figure:: ./pics/WGBS_pipeline.png
-
-   WGBS Dataflow Overview
-
-
+   cfDNApipe Workflow Overview
 
 
 .. _cell-free DNA: https://en.wikipedia.org/wiki/Circulating_free_DNA

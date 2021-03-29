@@ -9,6 +9,8 @@ This function is used for drawing heatmap plot including all samples.
 
    `cnvkit official docs <https://cnvkit.readthedocs.io/en/stable/>`__
 
+   Talevich, Eric, et al. "CNVkit: genome-wide copy number detection and visualization from targeted DNA sequencing." PLoS computational biology 12.4 (2016): e1004873.
+
 Parameters
 ~~~~~~~~~~
 

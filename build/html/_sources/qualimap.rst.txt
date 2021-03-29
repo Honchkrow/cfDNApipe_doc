@@ -9,6 +9,8 @@ This function is for bam file statistics, generating the coverage, depth, map ra
 
    `qualimap official docs <http://qualimap.conesalab.org/>`__
 
+   Okonechnikov, Konstantin, Ana Conesa, and Fernando García-Alcalde. "Qualimap 2: advanced multi-sample quality control for high-throughput sequencing data." Bioinformatics 32.2 (2016): 292-294.
+
 Parameters
 ~~~~~~~~~~
 

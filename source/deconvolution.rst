@@ -1,5 +1,5 @@
 deconvolution
-===========
+=============
 
 This function is used for methylation signal deconvolution.
 

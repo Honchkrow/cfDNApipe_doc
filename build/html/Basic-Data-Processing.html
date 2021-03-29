@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic Data Processing &#8212; cfDNApipe 0.1.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="inputprocess" href="inputprocess.html" />
+    <link rel="prev" title="Up Down Stream Flowchart" href="Up-Down-Stream-Flowchart.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="basic-data-processing">
+<h1>Basic Data Processing<a class="headerlink" href="#basic-data-processing" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p>Basic data processing part involves steps from raw fastq file to BAM/BED file procedure.
+For up- and down-stream relationship, please see “Up Down Stream Flowchart” part.
+For more demos, please see <a class="reference external" href="https://github.com/XWangLabTHU/cfDNApipe/tree/master/demo/pipeline_test">here</a>.</p>
+<div class="section" id="wgbs-example-usage">
+<h2>WGBS Example usage<a class="headerlink" href="#wgbs-example-usage" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cfDNApipe</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">pipeConfigure</span><span class="p">(</span>
+   <span class="n">threads</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+   <span class="n">genome</span><span class="o">=</span><span class="s2">&quot;hg19&quot;</span><span class="p">,</span>
+   <span class="n">refdir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;path_to_reference/hg19_bismark&quot;</span><span class="p">,</span>
+   <span class="n">outdir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;path_to_output/WGBS&quot;</span><span class="p">,</span>
+   <span class="n">data</span><span class="o">=</span><span class="s2">&quot;WGBS&quot;</span><span class="p">,</span>
+   <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;paired&quot;</span><span class="p">,</span>
+   <span class="n">JavaMem</span><span class="o">=</span><span class="s2">&quot;10g&quot;</span><span class="p">,</span>
+   <span class="n">build</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">res_inputprocess</span> <span class="o">=</span> <span class="n">inputprocess</span><span class="p">(</span><span class="n">inputFolder</span><span class="o">=</span><span class="s2">&quot;path_to_fastq&quot;</span><span class="p">)</span>
+
+<span class="n">res_fastqc</span> <span class="o">=</span> <span class="n">fastqc</span><span class="p">(</span><span class="n">upstream</span><span class="o">=</span><span class="n">res_inputprocess</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+<span class="n">res_identifyAdapter</span> <span class="o">=</span> <span class="n">identifyAdapter</span><span class="p">(</span><span class="n">upstream</span><span class="o">=</span><span class="n">res_inputprocess</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+<span class="n">res_adapterremoval</span> <span class="o">=</span> <span class="n">adapterremoval</span><span class="p">(</span><span class="n">upstream</span><span class="o">=</span><span class="n">res_identifyAdapter</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+<span class="n">res_bismark</span> <span class="o">=</span> <span class="n">bismark</span><span class="p">(</span><span class="n">upstream</span><span class="o">=</span><span class="n">res_adapterremoval</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+<span class="n">res_deduplicate</span> <span class="o">=</span> <span class="n">bismark_deduplicate</span><span class="p">(</span><span class="n">upstream</span><span class="o">=</span><span class="n">res_bismark</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="wgs-example-usage">
+<h2>WGS Example usage<a class="headerlink" href="#wgs-example-usage" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cfDNApipe</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">pipeConfigure</span><span class="p">(</span>
+   <span class="n">threads</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+   <span class="n">genome</span><span class="o">=</span><span class="s2">&quot;hg19&quot;</span><span class="p">,</span>
+   <span class="n">refdir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;path_to_reference/hg19_bowtie2&quot;</span><span class="p">,</span>
+   <span class="n">outdir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;path_to_output/WGS&quot;</span><span class="p">,</span>
+   <span class="n">data</span><span class="o">=</span><span class="s2">&quot;WGS&quot;</span><span class="p">,</span>
+   <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;paired&quot;</span><span class="p">,</span>
+   <span class="n">JavaMem</span><span class="o">=</span><span class="s2">&quot;10G&quot;</span><span class="p">,</span>
+   <span class="n">build</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">res_inputprocess</span> <span class="o">=</span> <span class="n">inputprocess</span><span class="p">(</span><span class="n">inputFolder</span><span class="o">=</span><span class="s2">&quot;path_to_fastq&quot;</span><span class="p">)</span>
+
+<span class="n">res_fastqc</span> <span class="o">=</span> <span class="n">fastqc</span><span class="p">(</span><span class="n">upstream</span><span class="o">=</span><span class="n">res_inputprocess</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+<span class="n">res_identifyAdapter</span> <span class="o">=</span> <span class="n">identifyAdapter</span><span class="p">(</span><span class="n">upstream</span><span class="o">=</span><span class="n">res_inputprocess</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+<span class="n">res_adapterremoval</span> <span class="o">=</span> <span class="n">adapterremoval</span><span class="p">(</span><span class="n">upstream</span><span class="o">=</span><span class="n">res_identifyAdapter</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+<span class="n">res_bowtie2</span> <span class="o">=</span> <span class="n">bowtie2</span><span class="p">(</span><span class="n">upstream</span><span class="o">=</span><span class="n">res_adapterremoval</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+<span class="n">res_bamsort</span> <span class="o">=</span> <span class="n">bamsort</span><span class="p">(</span><span class="n">upstream</span><span class="o">=</span><span class="n">res_bowtie2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pre-set-pipeline-example-usage">
+<h2>pre-set pipeline Example usage<a class="headerlink" href="#pre-set-pipeline-example-usage" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cfDNApipe</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">pipeConfigure2</span><span class="p">(</span>
+   <span class="n">threads</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span>
+   <span class="n">genome</span><span class="o">=</span><span class="s2">&quot;hg38&quot;</span><span class="p">,</span>
+   <span class="n">refdir</span><span class="o">=</span><span class="s2">&quot;/home/zhangwei/Genome/hg38_bismark&quot;</span><span class="p">,</span>
+   <span class="n">outdir</span><span class="o">=</span><span class="s2">&quot;/opt/tsinghua/zhangwei/Pipeline_test/o_WGBS-compare&quot;</span><span class="p">,</span>
+   <span class="n">data</span><span class="o">=</span><span class="s2">&quot;WGBS&quot;</span><span class="p">,</span>
+   <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;paired&quot;</span><span class="p">,</span>
+   <span class="n">JavaMem</span><span class="o">=</span><span class="s2">&quot;10G&quot;</span><span class="p">,</span>
+   <span class="n">case</span><span class="o">=</span><span class="s2">&quot;cancer&quot;</span><span class="p">,</span>
+   <span class="n">ctrl</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">,</span>
+   <span class="n">build</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># fragProfile is set to False because the demo data is too small to get valid values</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">cfDNAWGBS2</span><span class="p">(</span>
+   <span class="n">caseFolder</span><span class="o">=</span><span class="s2">&quot;/opt/tsinghua/zhangwei/Pipeline_test/WGBS-compare/case&quot;</span><span class="p">,</span>
+   <span class="n">ctrlFolder</span><span class="o">=</span><span class="s2">&quot;/opt/tsinghua/zhangwei/Pipeline_test/WGBS-compare/ctrl&quot;</span><span class="p">,</span>
+   <span class="n">caseName</span><span class="o">=</span><span class="s2">&quot;cancer&quot;</span><span class="p">,</span>
+   <span class="n">ctrlName</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">,</span>
+   <span class="n">idAdapter</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+   <span class="n">rmAdapter</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+   <span class="n">dudup</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+   <span class="n">armCNV</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+   <span class="n">CNV</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+   <span class="n">fragProfile</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+   <span class="n">deconvolution</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+   <span class="n">OCF</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+   <span class="n">report</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+   <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">DMR</span> <span class="o">=</span> <span class="n">computeDMR</span><span class="p">(</span><span class="n">caseupstream</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">calculate_methyl</span><span class="p">,</span> <span class="n">ctrlupstream</span><span class="o">=</span><span class="n">b</span><span class="o">.</span><span class="n">calculate_methyl</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">cfDNApipe</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Up-Down-Stream-Flowchart.html">Up Down Stream Flowchart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Basic Data Processing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="inputprocess.html">inputprocess</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identifyAdapter.html">identifyAdapter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adapterremoval.html">adapterremoval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bowtie2.html">bowtie2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bismark.html">bismark</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bismark_deduplicate.html">bismark_deduplicate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bamsort.html">bamsort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rmduplicate.html">rmduplicate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bam2bed.html">bam2bed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Configure.html">Configure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Configure2.html">Configure2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipeConfigure.html">pipeConfigure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipeConfigure2.html">pipeConfigure2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="switchConfigure.html">switchConfigure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cfDNAWGBS.html">cfDNAWGBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cfDNAWGBS2.html">cfDNAWGBS2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cfDNAWGS.html">cfDNAWGS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cfDNAWGS2.html">cfDNAWGS2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wgbs-example-usage">WGBS Example usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wgs-example-usage">WGS Example usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-set-pipeline-example-usage">pre-set pipeline Example usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Quality-Control.html">Quality Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Methylation-Analysis.html">Methylation Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Large-Scale-CNV.html">Large Scale CNV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Bin-Scale-CNV.html">Bin Scale CNV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Fragmentomics.html">Fragmentomics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Virus-Detection.html">Virus Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SNV-Detection.html">SNV Detection</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Up-Down-Stream-Flowchart.html" title="previous chapter">Up Down Stream Flowchart</a></li>
+      <li>Next: <a href="inputprocess.html" title="next chapter">inputprocess</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Wei Zhang.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/Basic-Data-Processing.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

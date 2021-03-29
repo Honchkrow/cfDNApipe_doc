@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="mutect2t" href="mutect2t.html" />
-    <link rel="prev" title="inputprocess" href="inputprocess.html" />
+    <link rel="prev" title="getPileup" href="getPileup.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -40,6 +40,7 @@
 <p class="admonition-title">Note</p>
 <p>This function is calling Mutect2. This function is only suit for paired data.</p>
 <p><a class="reference external" href="https://gatk.broadinstitute.org/hc/en-us/categories/360002310591-Technical-Documentation">gatk official docs</a></p>
+<p>McKenna, Aaron, et al. “The Genome Analysis Toolkit: a MapReduce framework for analyzing next-generation DNA sequencing data.” Genome research 20.9 (2010): 1297-1303.</p>
 </div>
 <div class="section" id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
@@ -174,66 +175,40 @@ For a detailed tutorial, please see <a class="reference external" href="https://
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="adapterremoval.html">adapterremoval</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addRG.html">addRG</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bam2bed.html">bam2bed</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bamCounter.html">bamCounter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bamsort.html">bamsort</a></li>
-<li class="toctree-l1"><a class="reference internal" href="BaseRecalibrator.html">BaseRecalibrator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bcftoolsVCF.html">bcftoolsVCF</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bismark.html">bismark</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bismark_deduplicate.html">bismark_deduplicate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bismark_methylation_extractor.html">bismark_methylation_extractor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bowtie2.html">bowtie2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="BQSR.html">BQSR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="calculate_methyl.html">calculate_methyl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cnvbatch.html">cnvbatch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cnvHeatmap.html">cnvHeatmap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cnvPlot.html">cnvPlot</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cnvTable.html">cnvTable</a></li>
-<li class="toctree-l1"><a class="reference internal" href="compress_methyl.html">compress_methyl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="computeCNV.html">computeCNV</a></li>
-<li class="toctree-l1"><a class="reference internal" href="computeDMR.html">computeDMR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="computeOCF.html">computeOCF</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contamination.html">contamination</a></li>
-<li class="toctree-l1"><a class="reference internal" href="createPON.html">createPON</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dbimport.html">dbimport</a></li>
-<li class="toctree-l1"><a class="reference internal" href="fastqc.html">fastqc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="filterMutectCalls.html">filterMutectCalls</a></li>
-<li class="toctree-l1"><a class="reference internal" href="fpCounter.html">fpCounter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="fraglenplot.html">fraglenplot</a></li>
-<li class="toctree-l1"><a class="reference internal" href="fraglenplot_comp.html">fraglenplot_comp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="fragprofplot.html">fragprofplot</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gatherVCF.html">gatherVCF</a></li>
-<li class="toctree-l1"><a class="reference internal" href="GCCorrect.html">GCCorrect</a></li>
-<li class="toctree-l1"><a class="reference internal" href="getPileup.html">getPileup</a></li>
-<li class="toctree-l1"><a class="reference internal" href="identifyAdapter.html">identifyAdapter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="inputprocess.html">inputprocess</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">mutect2n</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mutect2t.html">mutect2t</a></li>
-<li class="toctree-l1"><a class="reference internal" href="OCFplot.html">OCFplot</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qualimap.html">qualimap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rmduplicate.html">rmduplicate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="runCounter.html">runCounter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="runDeconCCN.html">runDeconCCN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="virusdetect.html">virusdetect</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Configure.html">Configure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Configure2.html">Configure2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pipeConfigure.html">pipeConfigure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pipeConfigure2.html">pipeConfigure2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="switchConfigure.html">switchConfigure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cfDNAWGBS.html">cfDNAWGBS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cfDNAWGBS2.html">cfDNAWGBS2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cfDNAWGS.html">cfDNAWGS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cfDNAWGS2.html">cfDNAWGS2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Up-Down-Stream-Flowchart.html">Up Down Stream Flowchart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basic-Data-Processing.html">Basic Data Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Quality-Control.html">Quality Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Methylation-Analysis.html">Methylation Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Large-Scale-CNV.html">Large Scale CNV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Bin-Scale-CNV.html">Bin Scale CNV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Fragmentomics.html">Fragmentomics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Virus-Detection.html">Virus Detection</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="SNV-Detection.html">SNV Detection</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="addRG.html">addRG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BaseRecalibrator.html">BaseRecalibrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcftoolsVCF.html">bcftoolsVCF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="BQSR.html">BQSR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contamination.html">contamination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="createPON.html">createPON</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dbimport.html">dbimport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="filterMutectCalls.html">filterMutectCalls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatherVCF.html">gatherVCF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getPileup.html">getPileup</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">mutect2n</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mutect2t.html">mutect2t</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SNV-Detection.html#snv-example-usage">SNV Example usage</a></li>
+</ul>
+</li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="inputprocess.html" title="previous chapter">inputprocess</a></li>
+  <li><a href="SNV-Detection.html">SNV Detection</a><ul>
+      <li>Previous: <a href="getPileup.html" title="previous chapter">getPileup</a></li>
       <li>Next: <a href="mutect2t.html" title="next chapter">mutect2t</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>

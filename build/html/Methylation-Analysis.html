@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Methylation Analysis &#8212; cfDNApipe 0.1.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="bismark_methylation_extractor" href="bismark_methylation_extractor.html" />
+    <link rel="prev" title="fraglenplot_comp" href="fraglenplot_comp.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="methylation-analysis">
+<h1>Methylation Analysis<a class="headerlink" href="#methylation-analysis" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p>The Following example shows how to perform deconvolution analysis. For up- and down-stream relationship, please see “Up Down Stream Flowchart” part.</p>
+<div class="section" id="deconvolution-example-usage">
+<h2>deconvolution Example usage<a class="headerlink" href="#deconvolution-example-usage" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">from</span> <span class="nn">cfDNApipe</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">pipeConfigure2</span><span class="p">(</span>
+   <span class="n">threads</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+   <span class="n">genome</span><span class="o">=</span><span class="s2">&quot;hg19&quot;</span><span class="p">,</span>
+   <span class="n">refdir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;path_to_reference/hg19_bismark&quot;</span><span class="p">,</span>
+   <span class="n">outdir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;path_to_output/WGBS&quot;</span><span class="p">,</span>
+   <span class="n">data</span><span class="o">=</span><span class="s2">&quot;WGBS&quot;</span><span class="p">,</span>
+   <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;single&quot;</span><span class="p">,</span>
+   <span class="n">case</span><span class="o">=</span><span class="s2">&quot;HCC&quot;</span><span class="p">,</span>
+   <span class="n">ctrl</span><span class="o">=</span><span class="s2">&quot;Healthy&quot;</span><span class="p">,</span>
+   <span class="n">JavaMem</span><span class="o">=</span><span class="s2">&quot;10G&quot;</span><span class="p">,</span>
+   <span class="n">build</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">hcc</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;/WGBS/HCC/intermediate_result/step_06_compress_methyl/*.gz&quot;</span><span class="p">)</span>
+<span class="n">ctr</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;/WGBS/Healthy/intermediate_result/step_06_compress_methyl/*.gz&quot;</span><span class="p">)</span>
+
+<span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">switchConfigure</span><span class="p">(</span><span class="s2">&quot;HCC&quot;</span><span class="p">)</span>
+<span class="n">hcc1</span> <span class="o">=</span> <span class="n">calculate_methyl</span><span class="p">(</span><span class="n">tbxInput</span><span class="o">=</span><span class="n">hcc</span><span class="p">,</span> <span class="n">bedInput</span><span class="o">=</span><span class="s2">&quot;plasmaMarkers_hg19.bed&quot;</span><span class="p">,</span> <span class="n">upstream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+<span class="n">hcc2</span> <span class="o">=</span> <span class="n">deconvolution</span><span class="p">(</span><span class="n">upstream</span><span class="o">=</span><span class="n">hcc1</span><span class="p">)</span>
+
+<span class="n">switchConfigure</span><span class="p">(</span><span class="s2">&quot;Healthy&quot;</span><span class="p">)</span>
+<span class="n">ctr1</span> <span class="o">=</span> <span class="n">calculate_methyl</span><span class="p">(</span><span class="n">tbxInput</span><span class="o">=</span><span class="n">ctr</span><span class="p">,</span> <span class="n">bedInput</span><span class="o">=</span><span class="s2">&quot;plasmaMarkers_hg19.bed&quot;</span><span class="p">,</span> <span class="n">upstream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+<span class="n">ctr2</span> <span class="o">=</span> <span class="n">deconvolution</span><span class="p">(</span><span class="n">upstream</span><span class="o">=</span><span class="n">ctr1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">cfDNApipe</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Up-Down-Stream-Flowchart.html">Up Down Stream Flowchart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basic-Data-Processing.html">Basic Data Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Quality-Control.html">Quality Control</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Methylation Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bismark_methylation_extractor.html">bismark_methylation_extractor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calculate_methyl.html">calculate_methyl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compress_methyl.html">compress_methyl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="computeDMR.html">computeDMR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deconvolution.html">deconvolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deconvolution-example-usage">deconvolution Example usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Large-Scale-CNV.html">Large Scale CNV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Bin-Scale-CNV.html">Bin Scale CNV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Fragmentomics.html">Fragmentomics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Virus-Detection.html">Virus Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SNV-Detection.html">SNV Detection</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="fraglenplot_comp.html" title="previous chapter">fraglenplot_comp</a></li>
+      <li>Next: <a href="bismark_methylation_extractor.html" title="next chapter">bismark_methylation_extractor</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Wei Zhang.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/Methylation-Analysis.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

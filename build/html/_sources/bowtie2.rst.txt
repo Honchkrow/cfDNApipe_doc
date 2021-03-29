@@ -9,6 +9,8 @@ This function is used for mapping WGS data.
 
    `bowtie2 official docs <http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml>`__
 
+   Langmead, Ben, and Steven L. Salzberg. "Fast gapped-read alignment with Bowtie 2." Nature methods 9.4 (2012): 357.
+
 Parameters
 ~~~~~~~~~~
 

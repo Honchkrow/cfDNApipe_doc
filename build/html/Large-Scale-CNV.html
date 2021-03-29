@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Large Scale CNV &#8212; cfDNApipe 0.1.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="bamCounter" href="bamCounter.html" />
+    <link rel="prev" title="deconvolution" href="deconvolution.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="large-scale-cnv">
+<h1>Large Scale CNV<a class="headerlink" href="#large-scale-cnv" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p>The Following example shows how to perform large scale CNV analysis. For up- and down-stream relationship, please see “Up Down Stream Flowchart” part.</p>
+<div class="section" id="cnv-example-usage">
+<h2>CNV Example usage<a class="headerlink" href="#cnv-example-usage" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cfDNApipe</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+
+<span class="n">pipeConfigure2</span><span class="p">(</span>
+   <span class="n">threads</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+   <span class="n">genome</span><span class="o">=</span><span class="s2">&quot;hg19&quot;</span><span class="p">,</span>
+   <span class="n">refdir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;reference_genome/hg19&quot;</span><span class="p">,</span>
+   <span class="n">outdir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;output/pcs_armCNV&quot;</span><span class="p">,</span>
+   <span class="n">data</span><span class="o">=</span><span class="s2">&quot;WGS&quot;</span><span class="p">,</span>
+   <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;paired&quot;</span><span class="p">,</span>
+   <span class="n">JavaMem</span><span class="o">=</span><span class="s2">&quot;8G&quot;</span><span class="p">,</span>
+   <span class="n">case</span><span class="o">=</span><span class="s2">&quot;cancer&quot;</span><span class="p">,</span>
+   <span class="n">ctrl</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">,</span>
+   <span class="n">build</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">case_bam</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;path_to_data/HCC/*.bam&quot;</span><span class="p">)</span>
+<span class="n">ctrl_bam</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;path_to_data/CTR/*.bam&quot;</span><span class="p">)</span>
+
+<span class="c1"># case</span>
+<span class="n">switchConfigure</span><span class="p">(</span><span class="s2">&quot;cancer&quot;</span><span class="p">)</span>
+<span class="n">case_bamCounter</span> <span class="o">=</span> <span class="n">bamCounter</span><span class="p">(</span>
+   <span class="n">bamInput</span><span class="o">=</span><span class="n">case_bam</span><span class="p">,</span> <span class="n">upstream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">stepNum</span><span class="o">=</span><span class="s2">&quot;case01&quot;</span>
+<span class="p">)</span>
+<span class="n">case_gcCounter</span> <span class="o">=</span> <span class="n">runCounter</span><span class="p">(</span>
+   <span class="n">filetype</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">upstream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">stepNum</span><span class="o">=</span><span class="s2">&quot;case02&quot;</span>
+<span class="p">)</span>
+<span class="n">case_GCCorrect</span> <span class="o">=</span> <span class="n">GCCorrect</span><span class="p">(</span>
+   <span class="n">readupstream</span><span class="o">=</span><span class="n">case_bamCounter</span><span class="p">,</span>
+   <span class="n">gcupstream</span><span class="o">=</span><span class="n">case_gcCounter</span><span class="p">,</span>
+   <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+   <span class="n">stepNum</span><span class="o">=</span><span class="s2">&quot;case03&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># ctrl</span>
+<span class="n">switchConfigure</span><span class="p">(</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+<span class="n">ctrl_bamCounter</span> <span class="o">=</span> <span class="n">bamCounter</span><span class="p">(</span>
+   <span class="n">bamInput</span><span class="o">=</span><span class="n">ctrl_bam</span><span class="p">,</span> <span class="n">upstream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">stepNum</span><span class="o">=</span><span class="s2">&quot;ctrl01&quot;</span>
+<span class="p">)</span>
+<span class="n">ctrl_gcCounter</span> <span class="o">=</span> <span class="n">runCounter</span><span class="p">(</span>
+   <span class="n">filetype</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">upstream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">stepNum</span><span class="o">=</span><span class="s2">&quot;ctrl02&quot;</span>
+<span class="p">)</span>
+<span class="n">ctrl_GCCorrect</span> <span class="o">=</span> <span class="n">GCCorrect</span><span class="p">(</span>
+   <span class="n">readupstream</span><span class="o">=</span><span class="n">ctrl_bamCounter</span><span class="p">,</span>
+   <span class="n">gcupstream</span><span class="o">=</span><span class="n">ctrl_gcCounter</span><span class="p">,</span>
+   <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+   <span class="n">stepNum</span><span class="o">=</span><span class="s2">&quot;ctrl03&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">switchConfigure</span><span class="p">(</span><span class="s2">&quot;cancer&quot;</span><span class="p">)</span>
+<span class="n">res_computeCNV</span> <span class="o">=</span> <span class="n">computeCNV</span><span class="p">(</span>
+   <span class="n">caseupstream</span><span class="o">=</span><span class="n">case_GCCorrect</span><span class="p">,</span>
+   <span class="n">ctrlupstream</span><span class="o">=</span><span class="n">ctrl_GCCorrect</span><span class="p">,</span>
+   <span class="n">stepNum</span><span class="o">=</span><span class="s2">&quot;ARMCNV&quot;</span><span class="p">,</span>
+   <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">cfDNApipe</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Up-Down-Stream-Flowchart.html">Up Down Stream Flowchart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basic-Data-Processing.html">Basic Data Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Quality-Control.html">Quality Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Methylation-Analysis.html">Methylation Analysis</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Large Scale CNV</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bamCounter.html">bamCounter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runCounter.html">runCounter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GCCorrect.html">GCCorrect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="computeCNV.html">computeCNV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cnv-example-usage">CNV Example usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Bin-Scale-CNV.html">Bin Scale CNV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Fragmentomics.html">Fragmentomics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Virus-Detection.html">Virus Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SNV-Detection.html">SNV Detection</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="deconvolution.html" title="previous chapter">deconvolution</a></li>
+      <li>Next: <a href="bamCounter.html" title="next chapter">bamCounter</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Wei Zhang.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/Large-Scale-CNV.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
